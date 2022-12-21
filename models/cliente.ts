@@ -1,3 +1,4 @@
+/* La clase del cliente que contiene los atributos de la base de datos */
 class Cliente {
     public razon_social: string;
     public telefono: string;
@@ -44,4 +45,5 @@ class Cliente {
     }
 }
 
+/* Exportamos la clase del cliente */
 export default Cliente;

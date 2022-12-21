@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/* La clase del cliente que contiene los atributos de la base de datos */
 class Cliente {
     constructor(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, usuario_creacion) {
         this.razon_social = razon_social;
@@ -17,5 +18,6 @@ class Cliente {
         this.usuario_creacion = usuario_creacion;
     }
 }
+/* Exportamos la clase del cliente */
 exports.default = Cliente;
 //# sourceMappingURL=cliente.js.map

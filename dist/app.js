@@ -7,6 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const server_1 = __importDefault(require("./models/server"));
 //Configuramos el .env
 dotenv_1.default.config();
+//Damos de alta el servidor, para poder usar las REST APIs
 const server = new server_1.default();
 server.listen();
 //# sourceMappingURL=app.js.map
