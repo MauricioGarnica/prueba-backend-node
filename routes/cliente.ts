@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { deleteCliente, getCliente, getClientes, postCliente, putCliente } from '../controllers/cliente';
+import { buscarClientes, deleteCliente, getCliente, getClientes, getLatYLng, postCliente, putCliente } from '../controllers/cliente';
 
 const router = Router();
 
 router.get('/', getClientes);
 router.get('/:id', getCliente);
+router.post('/lat-y-lng', getLatYLng);
 router.post('/', postCliente);
+router.post('/buscar', buscarClientes);
 router.put('/:id', putCliente);
 router.delete('/:id', deleteCliente);
 

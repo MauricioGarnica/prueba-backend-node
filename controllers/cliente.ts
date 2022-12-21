@@ -35,8 +35,8 @@ export const getCliente = (req: Request, res: Response) => {
     });
 };
 
-export const postCliente = async (req: Request, res: Response) => {
-    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, fecha_creacion} = req.body;
+export const getLatYLng = async(req: Request, res: Response) => {
+    const {calle, colonia, cp} = req.body;
 
     let oracion = "";
     const calle_desestructurada = calle.split(' ');
@@ -48,7 +48,6 @@ export const postCliente = async (req: Request, res: Response) => {
     colonia_desestructurada.forEach((colonia: string) => {
         oracion = oracion + colonia + "+";
     });
-
     oracion = oracion + cp;
 
     const result = await fetch(`https://geocode.search.hereapi.com/v1/geocode?q=${oracion}&apiKey=Zt_mvFl5zPMvNhOhmtrgZypThCHTUFLKBbQaTLZPa80`);
@@ -57,17 +56,90 @@ export const postCliente = async (req: Request, res: Response) => {
     const latitud = items[0].position.lat;
     const longitud = items[0].position.lng;
 
-    // const cliente = Cliente;
-
     res.json({
-        oracion,
-        latitud
-    })
+        latitud,
+        longitud
+    });
+};
+
+export const postCliente = async (req: Request, res: Response) => {
+    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion} = req.body;
+
+    const cliente = new Cliente(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+
+    conn.query('CALL SP_CLIENTES_INSERTAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',[
+        cliente.razon_social,
+        cliente.telefono,
+        cliente.correo,
+        cliente.referencia,
+        cliente.calle,
+        cliente.colonia,
+        cliente.cp,
+        cliente.ciudad_id,
+        cliente.estado_id,
+        cliente.latitud,
+        cliente.longitud
+    ], (error, rows) => {
+        if(error){
+            res.status(400).json({
+                msg: error
+            });
+        }
+
+        res.json({
+            msg: 'El cliente ha sido agregado con éxito',
+            rows
+        });
+    });
+};
+
+export const buscarClientes = (req: Request, res: Response) => {
+    const {filtro} = req.body;
+
+    conn.query('CALL SP_CLIENTES_BUSCAR(?)', [filtro], (error, rows) => {
+        if(error){
+            res.status(400).json({
+                msg: error
+            });
+        }
+        const clientes = rows[0];
+
+        res.json({
+            clientes
+        });
+    });
 };
 
 export const putCliente = async (req: Request, res: Response) => {
-    res.json({
-        msg: 'putCliente'
+    const {id} = req.params;
+    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion} = req.body;
+
+    const cliente = new Cliente(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+
+    conn.query('CALL SP_CLIENTES_MODIFICAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',[
+        id,
+        cliente.razon_social,
+        cliente.telefono,
+        cliente.correo,
+        cliente.referencia,
+        cliente.calle,
+        cliente.colonia,
+        cliente.cp,
+        cliente.ciudad_id,
+        cliente.estado_id,
+        cliente.latitud,
+        cliente.longitud
+    ], (error, rows) => {
+        if(error){
+            res.status(400).json({
+                msg: error
+            });
+        }
+
+        res.json({
+            msg: 'El cliente ha sido modificado con éxito',
+            rows
+        });
     });
 };
 
@@ -80,10 +152,10 @@ export const deleteCliente = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const cliente = rows[0];
 
         res.json({
-            cliente
+            msg: 'El cliente ha sido eliminado con éxito',
+            rows
         });
     });
 };
