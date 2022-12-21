@@ -8,10 +8,11 @@ export const getEstados = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const estados = rows[0];
+        const estados = Object.values(JSON.parse(JSON.stringify(rows)));
+        const states = estados[0];
 
         res.json({
-            estados
+            states
         });
     });
 };
@@ -25,10 +26,11 @@ export const getEstado = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const estado = rows[0];
+        const estado = Object.values(JSON.parse(JSON.stringify(rows)));
+        const state = estado[0];
 
         res.json({
-            estado
-        })
+            state
+        });
     });
 };

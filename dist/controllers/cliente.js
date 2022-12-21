@@ -23,9 +23,10 @@ const getClientes = (req, res) => {
                 msg: error
             });
         }
-        const clientes = rows[0];
+        const clientes = Object.values(JSON.parse(JSON.stringify(rows)));
+        const clients = clientes[0];
         res.json({
-            clientes
+            clients
         });
     });
 };
@@ -38,9 +39,10 @@ const getCliente = (req, res) => {
                 msg: error
             });
         }
-        const cliente = rows[0];
+        const cliente = Object.values(JSON.parse(JSON.stringify(rows)));
+        const client = cliente[0];
         res.json({
-            cliente
+            client
         });
     });
 };
@@ -103,9 +105,10 @@ const buscarClientes = (req, res) => {
                 msg: error
             });
         }
-        const clientes = rows[0];
+        const clientes = Object.values(JSON.parse(JSON.stringify(rows)));
+        const clients = clientes[0];
         res.json({
-            clientes
+            clients
         });
     });
 };

@@ -12,9 +12,10 @@ const getCiudades = (req, res) => {
                 msg: error
             });
         }
-        const ciudades = rows[0];
+        const ciudades = Object.values(JSON.parse(JSON.stringify(rows)));
+        const cities = ciudades[0];
         res.json({
-            ciudades
+            cities
         });
     });
 };
@@ -27,9 +28,10 @@ const getCiudad = (req, res) => {
                 msg: error
             });
         }
-        const ciudad = rows[0];
+        const ciudad = Object.values(JSON.parse(JSON.stringify(rows)));
+        const city = ciudad[0];
         res.json({
-            ciudad
+            city
         });
     });
 };
@@ -42,9 +44,10 @@ const getCiudadesPorEstado = (req, res) => {
                 msg: error
             });
         }
-        const ciudades = rows[0];
+        const ciudades = Object.values(JSON.parse(JSON.stringify(rows)));
+        const cities = ciudades[0];
         res.json({
-            ciudades
+            cities
         });
     });
 };

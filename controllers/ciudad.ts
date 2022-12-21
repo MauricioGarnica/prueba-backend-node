@@ -8,10 +8,11 @@ export const getCiudades = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const ciudades = rows[0];
+        const ciudades = Object.values(JSON.parse(JSON.stringify(rows)));
+        const cities = ciudades[0];
 
         res.json({
-            ciudades
+            cities
         });
     })
 };
@@ -25,10 +26,11 @@ export const getCiudad = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const ciudad = rows[0];
+        const ciudad = Object.values(JSON.parse(JSON.stringify(rows)));
+        const city = ciudad[0];
 
         res.json({
-            ciudad
+            city
         });
     });
 };
@@ -42,10 +44,11 @@ export const getCiudadesPorEstado = (req: Request, res: Response) => {
                 msg: error
             });
         }
-        const ciudades = rows[0];
+        const ciudades = Object.values(JSON.parse(JSON.stringify(rows)));
+        const cities = ciudades[0];
 
         res.json({
-            ciudades
+            cities
         })
     });
 };
