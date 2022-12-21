@@ -1,10 +1,10 @@
 import mysql from 'mysql';
 
 const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'prueba_backend'
+    host: process.env.HOST || 'localhost',
+    user: process.env.USER || 'root',
+    password: process.env.PASSWORD || 'root',
+    database: process.env.DATABASE || 'prueba_backend'
 });
 
 export default conn;
