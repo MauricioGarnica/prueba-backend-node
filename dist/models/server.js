@@ -8,13 +8,17 @@ const cors_1 = __importDefault(require("cors"));
 const cliente_1 = require("../routes/cliente");
 const estado_1 = require("../routes/estado");
 const ciudad_1 = require("../routes/ciudad");
+const auth_1 = require("../routes/auth");
+const usuario_1 = require("../routes/usuario");
 /* Elaboramos la clase del servidor, que hará que funcione la aplicación */
 class Server {
     constructor() {
         this.apiPaths = {
             clientes: '/api/clientes',
             estados: '/api/estados',
-            ciudades: '/api/ciudades'
+            ciudades: '/api/ciudades',
+            auth: '/api/auth',
+            usuarios: '/api/usuarios'
         };
         /* Las variables que se inicializan al momento de llamar la clase */
         this.app = (0, express_1.default)();
@@ -45,6 +49,8 @@ class Server {
         this.app.use(this.apiPaths.clientes, cliente_1.router);
         this.app.use(this.apiPaths.estados, estado_1.router);
         this.app.use(this.apiPaths.ciudades, ciudad_1.router);
+        this.app.use(this.apiPaths.auth, auth_1.router);
+        this.app.use(this.apiPaths.usuarios, usuario_1.router);
     }
     ;
 }

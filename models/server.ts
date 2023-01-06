@@ -3,6 +3,8 @@ import cors from 'cors';
 import {router as RouterCliente} from '../routes/cliente';
 import {router as RouterEstado} from '../routes/estado'
 import {router as RouterCiudad} from '../routes/ciudad'
+import {router as RouterAuth} from '../routes/auth';
+import {router as RouterUsuario} from '../routes/usuario';
 
 /* Elaboramos la clase del servidor, que hará que funcione la aplicación */
 class Server {
@@ -12,7 +14,9 @@ class Server {
     private apiPaths = {
         clientes: '/api/clientes',
         estados: '/api/estados',
-        ciudades: '/api/ciudades'
+        ciudades: '/api/ciudades',
+        auth: '/api/auth',
+        usuarios: '/api/usuarios'
     };
 
     constructor(){
@@ -49,6 +53,8 @@ class Server {
         this.app.use(this.apiPaths.clientes, RouterCliente);
         this.app.use(this.apiPaths.estados, RouterEstado);
         this.app.use(this.apiPaths.ciudades, RouterCiudad);
+        this.app.use(this.apiPaths.auth, RouterAuth);
+        this.app.use(this.apiPaths.usuarios, RouterUsuario);
     };
 };
 
