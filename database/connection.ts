@@ -6,8 +6,7 @@ import mysql from 'mysql2';
      user: process.env.USER || 'root',
      password: process.env.PASSWORD || 'root',
      database: process.env.DATABASE || 'prueba_backend',
-     port: 3306 || process.env.DB_PORT,
-    
+     port: 3306 || process.env.DB_PORT
  });
 
 // /* Esta línea de conexión es para trabajar en la nube con el respaldo de la BD */

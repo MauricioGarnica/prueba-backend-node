@@ -12,7 +12,9 @@ router.get('/', [
 router.get('/:id', [
     validar_JWT_1.validarJWT
 ], usuario_1.getUsuario);
-router.post('/', usuario_1.postUsuario);
+router.post('/', [
+    validar_JWT_1.validarJWT
+], usuario_1.postUsuario);
 router.put('/:id', [
     validar_JWT_1.validarJWT
 ], usuario_1.putUsuario);

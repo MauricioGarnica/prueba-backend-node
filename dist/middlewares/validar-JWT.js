@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validarJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const connection_1 = __importDefault(require("../database/connection"));
+const promise_1 = __importDefault(require("mysql2/promise"));
 const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('token');
     if (!token) {
@@ -23,22 +23,23 @@ const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     try {
-        const { id } = jsonwebtoken_1.default.verify(token, (process.env.SECRETORPRIVATEKEY) ? process.env.SECRETORPRIVATEKEY : '2rKJ6vq:%P72$W/c4n');
-        let usuario;
-        /* Verificamos si el usuario existe o esta dado de baja */
-        connection_1.default.query('CALL SP_USUARIOS_OBTENER_UNO(?)', [id], (error, rows) => {
-            /* Mandamos mensaje de error por si se da */
-            if (error) {
-                res.status(400).json({
-                    msg: error
-                });
-            }
-            /* Desestructuro la respuesta para hacerlo un arreglo de objetos */
-            usuario = Object.values(JSON.parse(JSON.stringify(rows)));
+        const connection = yield promise_1.default.createConnection({
+            host: process.env.HOST || 'localhost',
+            user: process.env.USER || 'root',
+            password: process.env.PASSWORD || 'root',
+            database: process.env.DATABASE || 'prueba_backend',
+            port: 3306 || process.env.DB_PORT
         });
-        if (usuario) {
-            next();
+        const { id } = jsonwebtoken_1.default.verify(token, (process.env.SECRETORPRIVATEKEY) ? process.env.SECRETORPRIVATEKEY : '2rKJ6vq:%P72$W/c4n');
+        /* Verificamos si el usuario existe o esta dado de baja */
+        const [rows, fields] = yield connection.execute("CALL SP_USUARIOS_OBTENER_UNO(?)", [id]);
+        if (!rows) {
+            res.status(400).json({
+                msg: "No esta el usuario disponible en la BD",
+                rows
+            });
         }
+        next();
     }
     catch (error) {
         console.log(error);
