@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { generarJWT } from "../helpers/generar-jwt";
 import mysql from 'mysql2/promise';
 
-const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
     const { correo, usuario, password } = req.body;
     let usuarioEncontrado: any;
 
@@ -62,6 +62,20 @@ const login = async (req: Request, res: Response) => {
     }
 }
 
-export {
-    login
+export const logout = async (req: Request, res: Response) => {
+    const {usuario_id} = req.body;
+
+    conn.query("CALL SP_USUARIOS_CERRAR_SESION(?)", [usuario_id], (error, rows) => {
+        /* Mandamos mensaje de error por si se da */
+        if(error){
+            res.status(400).json({
+                msg: error
+            });
+        }
+
+        /* Mandamos el resultado */
+        res.status(200).json({
+            msg: "Sesión cerrada con éxito"
+        });
+    });
 }

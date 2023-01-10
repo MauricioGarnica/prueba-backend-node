@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = void 0;
+exports.logout = exports.login = void 0;
 const connection_1 = __importDefault(require("../database/connection"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const generar_jwt_1 = require("../helpers/generar-jwt");
@@ -69,4 +69,20 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.login = login;
+const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { usuario_id } = req.body;
+    connection_1.default.query("CALL SP_USUARIOS_CERRAR_SESION(?)", [usuario_id], (error, rows) => {
+        /* Mandamos mensaje de error por si se da */
+        if (error) {
+            res.status(400).json({
+                msg: error
+            });
+        }
+        /* Mandamos el resultado */
+        res.status(200).json({
+            msg: "Sesión cerrada con éxito"
+        });
+    });
+});
+exports.logout = logout;
 //# sourceMappingURL=auth.js.map

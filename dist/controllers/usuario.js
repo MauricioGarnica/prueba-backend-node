@@ -82,7 +82,7 @@ const putUsuario = (req, res) => {
         }
         /* Mandamos el resultado */
         res.json({
-            msg: 'El cliente ha sido modificado con éxito',
+            msg: 'El usuario ha sido modificado con éxito',
             rows
         });
     });
