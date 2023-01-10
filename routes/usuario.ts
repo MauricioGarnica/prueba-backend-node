@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import { deleteUsuario, getUsuario, getUsuarios, postUsuario, putUsuario } from '../controllers/usuario';
 import { validarJWT } from '../middlewares/validar-JWT';
+import { puedeEliminar } from '../middlewares/validar-rol';
 
 const router = Router();
 
@@ -21,7 +22,8 @@ router.put('/:id', [
 ], putUsuario);
 
 router.delete('/:id', [
-    validarJWT
+    validarJWT,
+    puedeEliminar
 ], deleteUsuario);
 
 export {

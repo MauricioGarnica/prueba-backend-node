@@ -4,6 +4,7 @@ exports.router = void 0;
 const express_1 = require("express");
 const usuario_1 = require("../controllers/usuario");
 const validar_JWT_1 = require("../middlewares/validar-JWT");
+const validar_rol_1 = require("../middlewares/validar-rol");
 const router = (0, express_1.Router)();
 exports.router = router;
 router.get('/', [
@@ -19,6 +20,7 @@ router.put('/:id', [
     validar_JWT_1.validarJWT
 ], usuario_1.putUsuario);
 router.delete('/:id', [
-    validar_JWT_1.validarJWT
+    validar_JWT_1.validarJWT,
+    validar_rol_1.puedeEliminar
 ], usuario_1.deleteUsuario);
 //# sourceMappingURL=usuario.js.map

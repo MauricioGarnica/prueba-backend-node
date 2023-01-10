@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import conn from "../database/connection";
-import Cliente from "../models/cliente";
 import fetch from "cross-fetch";
 
 /* Función que permite la obtención de los clientes al completo */
@@ -94,24 +93,22 @@ export const getLatYLng = async(req: Request, res: Response) => {
 /* Función que permite la inserción de un cliente a la BD */
 export const postCliente = async (req: Request, res: Response) => {
     /* Obtenemos los datos del cliente que fueron pasados por el body en la URL */
-    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion} = req.body;
-
-    /* Agregamos los datos al cliente */
-    const cliente = new Cliente(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, usuario_id} = req.body;
 
     /* Ejecutamos la consulta para hacer la inserción */
-    conn.query('CALL SP_CLIENTES_INSERTAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',[
-        cliente.razon_social,
-        cliente.telefono,
-        cliente.correo,
-        cliente.referencia,
-        cliente.calle,
-        cliente.colonia,
-        cliente.cp,
-        cliente.ciudad_id,
-        cliente.estado_id,
-        cliente.latitud,
-        cliente.longitud
+    conn.query('CALL SP_CLIENTES_INSERTAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',[
+        razon_social,
+        telefono,
+        correo,
+        referencia,
+        calle,
+        colonia,
+        cp,
+        ciudad_id,
+        estado_id,
+        latitud,
+        longitud,
+        usuario_id
     ], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if(error){
@@ -159,25 +156,23 @@ export const putCliente = async (req: Request, res: Response) => {
     const {id} = req.params;
 
     /* Obtenemos los datos del cliente que fueron pasados por el body en la URL */
-    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion} = req.body;
-
-    /* Agregamos los datos al cliente */
-    const cliente = new Cliente(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+    const {razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, usuario_id} = req.body;
 
     /* Ejecutamos la consulta para hacer la modificación */
     conn.query('CALL SP_CLIENTES_MODIFICAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',[
         id,
-        cliente.razon_social,
-        cliente.telefono,
-        cliente.correo,
-        cliente.referencia,
-        cliente.calle,
-        cliente.colonia,
-        cliente.cp,
-        cliente.ciudad_id,
-        cliente.estado_id,
-        cliente.latitud,
-        cliente.longitud
+        razon_social,
+        telefono,
+        correo,
+        referencia,
+        calle,
+        colonia,
+        cp,
+        ciudad_id,
+        estado_id,
+        latitud,
+        longitud,
+        usuario_id
     ], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if(error){
@@ -199,8 +194,10 @@ export const deleteCliente = (req: Request, res: Response) => {
     /* Obtenemos el ID que fue pasado por el params en la URL */
     const {id} = req.params;
 
+    const {usuario_id} = req.body;
+
     /* Iniciamos la consulta del procedimeinto almacenado pasando como parametro el ID */
-    conn.query('CALL SP_CLIENTES_ELIMINAR(?)', [id], (error, rows) => {
+    conn.query('CALL SP_CLIENTES_ELIMINAR(?, ?)', [id, usuario_id], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if(error){
             res.status(400).json({

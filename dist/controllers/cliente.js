@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteCliente = exports.putCliente = exports.buscarClientes = exports.postCliente = exports.getLatYLng = exports.getCliente = exports.getClientes = void 0;
 const connection_1 = __importDefault(require("../database/connection"));
-const cliente_1 = __importDefault(require("../models/cliente"));
 const cross_fetch_1 = __importDefault(require("cross-fetch"));
 /* Función que permite la obtención de los clientes al completo */
 const getClientes = (req, res) => {
@@ -94,22 +93,21 @@ exports.getLatYLng = getLatYLng;
 /* Función que permite la inserción de un cliente a la BD */
 const postCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     /* Obtenemos los datos del cliente que fueron pasados por el body en la URL */
-    const { razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion } = req.body;
-    /* Agregamos los datos al cliente */
-    const cliente = new cliente_1.default(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+    const { razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, usuario_id } = req.body;
     /* Ejecutamos la consulta para hacer la inserción */
-    connection_1.default.query('CALL SP_CLIENTES_INSERTAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-        cliente.razon_social,
-        cliente.telefono,
-        cliente.correo,
-        cliente.referencia,
-        cliente.calle,
-        cliente.colonia,
-        cliente.cp,
-        cliente.ciudad_id,
-        cliente.estado_id,
-        cliente.latitud,
-        cliente.longitud
+    connection_1.default.query('CALL SP_CLIENTES_INSERTAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+        razon_social,
+        telefono,
+        correo,
+        referencia,
+        calle,
+        colonia,
+        cp,
+        ciudad_id,
+        estado_id,
+        latitud,
+        longitud,
+        usuario_id
     ], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if (error) {
@@ -152,23 +150,22 @@ const putCliente = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     /* Obtenemos el ID que fue pasado por el params en la URL */
     const { id } = req.params;
     /* Obtenemos los datos del cliente que fueron pasados por el body en la URL */
-    const { razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion } = req.body;
-    /* Agregamos los datos al cliente */
-    const cliente = new cliente_1.default(razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, fecha_creacion, 1);
+    const { razon_social, telefono, correo, referencia, calle, colonia, cp, ciudad_id, estado_id, latitud, longitud, usuario_id } = req.body;
     /* Ejecutamos la consulta para hacer la modificación */
     connection_1.default.query('CALL SP_CLIENTES_MODIFICAR(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
         id,
-        cliente.razon_social,
-        cliente.telefono,
-        cliente.correo,
-        cliente.referencia,
-        cliente.calle,
-        cliente.colonia,
-        cliente.cp,
-        cliente.ciudad_id,
-        cliente.estado_id,
-        cliente.latitud,
-        cliente.longitud
+        razon_social,
+        telefono,
+        correo,
+        referencia,
+        calle,
+        colonia,
+        cp,
+        ciudad_id,
+        estado_id,
+        latitud,
+        longitud,
+        usuario_id
     ], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if (error) {
@@ -188,8 +185,9 @@ exports.putCliente = putCliente;
 const deleteCliente = (req, res) => {
     /* Obtenemos el ID que fue pasado por el params en la URL */
     const { id } = req.params;
+    const { usuario_id } = req.body;
     /* Iniciamos la consulta del procedimeinto almacenado pasando como parametro el ID */
-    connection_1.default.query('CALL SP_CLIENTES_ELIMINAR(?)', [id], (error, rows) => {
+    connection_1.default.query('CALL SP_CLIENTES_ELIMINAR(?, ?)', [id, usuario_id], (error, rows) => {
         /* Mandamos mensaje de error por si se da */
         if (error) {
             res.status(400).json({

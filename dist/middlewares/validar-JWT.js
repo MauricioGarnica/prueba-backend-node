@@ -39,6 +39,11 @@ const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
                 rows
             });
         }
+        /* Desestructuro la respuesta para hacerlo un arreglo de objetos */
+        const usuario = Object.values(JSON.parse(JSON.stringify(rows)));
+        const user = usuario[0];
+        /* Ponemos el usuario en el req para obtener las propiedades de el con las demás validaciones */
+        req.usuario = user;
         next();
     }
     catch (error) {

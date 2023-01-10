@@ -18,7 +18,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const generar_jwt_1 = require("../helpers/generar-jwt");
 const promise_1 = __importDefault(require("mysql2/promise"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { correo, usuario, password } = req.body;
+    const { correo_usuario, password } = req.body;
     let usuarioEncontrado;
     try {
         const connection = yield promise_1.default.createConnection({
@@ -29,7 +29,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             port: 3306 || process.env.DB_PORT
         });
         /* Verificamos si el correo existe en la BD */
-        const [rows] = yield connection.execute('SELECT usuarios.usuario_id, usuarios.correo, usuarios.usuario, usuarios.contrasenia, usuarios.nombre, roles.rol_id, roles.rol FROM usuarios INNER JOIN roles ON roles.rol_id = usuarios.rol_id WHERE usuarios.baja = 1 AND (usuarios.correo LIKE ? OR usuarios.usuario LIKE ?)', [correo, usuario]);
+        const [rows] = yield connection.execute('SELECT usuarios.usuario_id, usuarios.correo, usuarios.usuario, usuarios.contrasenia, usuarios.nombre, roles.rol_id, roles.rol FROM usuarios INNER JOIN roles ON roles.rol_id = usuarios.rol_id WHERE usuarios.baja = 1 AND (usuarios.correo LIKE ? OR usuarios.usuario LIKE ?)', [correo_usuario, correo_usuario]);
         /* Mandamos mensaje de error por si se da */
         if (!rows) {
             return res.status(400).json({
