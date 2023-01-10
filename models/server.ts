@@ -6,6 +6,7 @@ import {router as RouterCiudad} from '../routes/ciudad'
 import {router as RouterAuth} from '../routes/auth';
 import {router as RouterUsuario} from '../routes/usuario';
 import {router as RouterBitacora} from '../routes/bitacora';
+import {router as RouterRol} from '../routes/rol';
 
 /* Elaboramos la clase del servidor, que hará que funcione la aplicación */
 class Server {
@@ -18,7 +19,8 @@ class Server {
         ciudades: '/api/ciudades',
         auth: '/api/auth',
         usuarios: '/api/usuarios',
-        bitacoras: '/api/bitacoras'
+        bitacoras: '/api/bitacoras',
+        roles: '/api/roles'
     };
 
     constructor(){
@@ -58,6 +60,7 @@ class Server {
         this.app.use(this.apiPaths.auth, RouterAuth);
         this.app.use(this.apiPaths.usuarios, RouterUsuario);
         this.app.use(this.apiPaths.bitacoras, RouterBitacora);
+        this.app.use(this.apiPaths.roles, RouterRol);
     };
 };
 

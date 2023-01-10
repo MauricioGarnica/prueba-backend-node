@@ -11,6 +11,7 @@ const ciudad_1 = require("../routes/ciudad");
 const auth_1 = require("../routes/auth");
 const usuario_1 = require("../routes/usuario");
 const bitacora_1 = require("../routes/bitacora");
+const rol_1 = require("../routes/rol");
 /* Elaboramos la clase del servidor, que hará que funcione la aplicación */
 class Server {
     constructor() {
@@ -20,7 +21,8 @@ class Server {
             ciudades: '/api/ciudades',
             auth: '/api/auth',
             usuarios: '/api/usuarios',
-            bitacoras: '/api/bitacoras'
+            bitacoras: '/api/bitacoras',
+            roles: '/api/roles'
         };
         /* Las variables que se inicializan al momento de llamar la clase */
         this.app = (0, express_1.default)();
@@ -54,6 +56,7 @@ class Server {
         this.app.use(this.apiPaths.auth, auth_1.router);
         this.app.use(this.apiPaths.usuarios, usuario_1.router);
         this.app.use(this.apiPaths.bitacoras, bitacora_1.router);
+        this.app.use(this.apiPaths.roles, rol_1.router);
     }
     ;
 }
