@@ -13,7 +13,13 @@ const validarJWT = async (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        const connection = await mysql.createConnection('mysql://root:8pe0pnds2igppQotX8CR@containers-us-west-188.railway.app:6522/railway');;
+        const connection = await mysql.createConnection({
+            host: process.env.HOST || 'localhost',
+            user: process.env.USER || 'root',
+            password: process.env.PASSWORD || 'root',
+            database: process.env.DATABASE || 'prueba_backend',
+            port: 3306 || process.env.DB_PORT
+        });
 
         const { id } = jwt.verify(token, (process.env.SECRETORPRIVATEKEY) ? process.env.SECRETORPRIVATEKEY : '2rKJ6vq:%P72$W/c4n');
 
