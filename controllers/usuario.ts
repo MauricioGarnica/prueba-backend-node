@@ -40,7 +40,13 @@ export const getUsuario = (req: Request, res: Response) => {
 
         /* Mandamos el resultado */
         res.json({
-            user
+            usuario_id: user.usuario_id,
+            correo: user.correo,
+            fecha_creacion: user.fecha_creacion,
+            nombre: user.nombre,
+            usuario: user.usuario,
+            rol_id: user.rol_id,
+            rol: user.rol
         });
     });
 };
