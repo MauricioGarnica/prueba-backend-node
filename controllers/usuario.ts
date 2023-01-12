@@ -117,3 +117,24 @@ export const deleteUsuario = (req: Request, res: Response) => {
         });
     });
 };
+
+export const buscarUsuario = (req: Request, res: Response) => {
+    const {filtro} = req.body;
+
+    conn.query('CALL SP_USUARIOS_BUSCAR(?)', [filtro], (error, rows) => {
+        /* Mandamos mensaje de error por si se da */
+        if(error){
+            res.status(400).json({
+                msg: error
+            });
+        }
+
+        const usuarios = Object.values(JSON.parse(JSON.stringify(rows)));
+        const users = usuarios[0];
+
+        /* Mandamos el resultado */
+        res.json({
+            users
+        })
+    });
+};
