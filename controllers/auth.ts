@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response) => {
         });
 
         /* Verificamos si el correo existe en la BD */
-        const [rows] = await connection.execute('SELECT usuarios.usuario_id, usuarios.correo, usuarios.usuario, usuarios.contrasenia, usuarios.nombre, roles.rol_id, roles.rol FROM usuarios INNER JOIN roles ON roles.rol_id = usuarios.rol_id WHERE usuarios.baja = 1 AND (usuarios.correo LIKE ? OR usuarios.usuario LIKE ?)', [correo_usuario, correo_usuario]);
+        const [rows] = await connection.query('SELECT usuarios.usuario_id, usuarios.correo, usuarios.usuario, usuarios.contrasenia, usuarios.nombre, roles.rol_id, roles.rol FROM usuarios INNER JOIN roles ON roles.rol_id = usuarios.rol_id WHERE usuarios.baja = 1 AND (usuarios.correo LIKE ? OR usuarios.usuario LIKE ?)', [correo_usuario, correo_usuario]);
         /* Mandamos mensaje de error por si se da */
         if (!rows) {
             return res.status(400).json({

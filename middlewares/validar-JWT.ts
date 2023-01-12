@@ -24,7 +24,7 @@ const validarJWT = async (req: Request, res: Response, next: NextFunction) => {
         const { id } = jwt.verify(token, (process.env.SECRETORPRIVATEKEY) ? process.env.SECRETORPRIVATEKEY : '2rKJ6vq:%P72$W/c4n');
 
         /* Verificamos si el usuario existe o esta dado de baja */
-        const [rows, fields] = await connection.execute("CALL SP_USUARIOS_OBTENER_UNO(?)", [id]);
+        const [rows, fields] = await connection.query("CALL SP_USUARIOS_OBTENER_UNO(?)", [id]);
 
         if(!rows){
             res.status(400).json({
