@@ -23,16 +23,10 @@ const validarJWT = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         });
     }
     try {
-        const connection = yield promise_1.default.createConnection({
-            host: process.env.HOST || 'localhost',
-            user: process.env.USER || 'root',
-            password: process.env.PASSWORD || 'root',
-            database: process.env.DATABASE || 'prueba_backend',
-            port: 3306 || process.env.DB_PORT
-        });
+        const connection = yield promise_1.default.createConnection('mysql://root:8pe0pnds2igppQotX8CR@containers-us-west-188.railway.app:6522/railway');
         const { id } = jsonwebtoken_1.default.verify(token, (process.env.SECRETORPRIVATEKEY) ? process.env.SECRETORPRIVATEKEY : '2rKJ6vq:%P72$W/c4n');
         /* Verificamos si el usuario existe o esta dado de baja */
-        const [rows, fields] = yield connection.execute("CALL SP_USUARIOS_OBTENER_UNO(?)", [id]);
+        const [rows, fields] = yield connection.query("CALL SP_USUARIOS_OBTENER_UNO(?)", [id]);
         if (!rows) {
             res.status(400).json({
                 msg: "No esta el usuario disponible en la BD",

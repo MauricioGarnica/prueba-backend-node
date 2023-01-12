@@ -9,13 +9,7 @@ export const login = async (req: Request, res: Response) => {
     let usuarioEncontrado: any;
 
     try {
-        const connection = await mysql.createConnection({
-            host: process.env.HOST || 'localhost',
-            user: process.env.USER || 'root',
-            password: process.env.PASSWORD || 'root',
-            database: process.env.DATABASE || 'prueba_backend',
-            port: 3306 || process.env.DB_PORT
-        });
+        const connection = await mysql.createConnection('mysql://root:8pe0pnds2igppQotX8CR@containers-us-west-188.railway.app:6522/railway');
 
         /* Verificamos si el correo existe en la BD */
         const [rows] = await connection.query('SELECT usuarios.usuario_id, usuarios.correo, usuarios.usuario, usuarios.contrasenia, usuarios.nombre, roles.rol_id, roles.rol FROM usuarios INNER JOIN roles ON roles.rol_id = usuarios.rol_id WHERE usuarios.baja = 1 AND (usuarios.correo LIKE ? OR usuarios.usuario LIKE ?)', [correo_usuario, correo_usuario]);
