@@ -9,4 +9,7 @@ exports.router = router;
 router.get('/', [
     validar_JWT_1.validarJWT
 ], bitacora_1.getBitacoras);
+router.post('/buscar', [
+    validar_JWT_1.validarJWT
+], bitacora_1.buscarBitacoras);
 //# sourceMappingURL=bitacora.js.map

@@ -52,7 +52,21 @@ const getCliente = (req, res) => {
         const client = cliente[0];
         /* Mandamos el resultado */
         res.json({
-            client
+            cliente_id: client.cliente_id,
+            razon_social: client.razon_social,
+            telefono: client.telefono,
+            correo: client.correo,
+            fecha_creacion: client.fecha_creacion,
+            referencia: client.referencia,
+            estado_id: client.estado_id,
+            estado: client.estado,
+            ciudad_id: client.ciudad_id,
+            ciudad: client.ciudad,
+            colonia: client.colonia,
+            calle: client.calle,
+            cp: client.cp,
+            latitud: client.latitud,
+            longitud: client.longitud
         });
     });
 };

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.buscarUsuario = exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
 const connection_1 = __importDefault(require("../database/connection"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const getUsuarios = (req, res) => {
@@ -39,7 +39,13 @@ const getUsuario = (req, res) => {
         const user = usuario[0];
         /* Mandamos el resultado */
         res.json({
-            user
+            usuario_id: user.usuario_id,
+            correo: user.correo,
+            fecha_creacion: user.fecha_creacion,
+            nombre: user.nombre,
+            usuario: user.usuario,
+            rol_id: user.rol_id,
+            rol: user.rol
         });
     });
 };
@@ -107,4 +113,22 @@ const deleteUsuario = (req, res) => {
     });
 };
 exports.deleteUsuario = deleteUsuario;
+const buscarUsuario = (req, res) => {
+    const { filtro } = req.body;
+    connection_1.default.query('CALL SP_USUARIOS_BUSCAR(?)', [filtro], (error, rows) => {
+        /* Mandamos mensaje de error por si se da */
+        if (error) {
+            res.status(400).json({
+                msg: error
+            });
+        }
+        const usuarios = Object.values(JSON.parse(JSON.stringify(rows)));
+        const users = usuarios[0];
+        /* Mandamos el resultado */
+        res.json({
+            users
+        });
+    });
+};
+exports.buscarUsuario = buscarUsuario;
 //# sourceMappingURL=usuario.js.map
