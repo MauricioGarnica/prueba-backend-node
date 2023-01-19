@@ -8,7 +8,7 @@ router.get('/', [
     validarJWT
 ], getBitacoras);
 
-router.post('/buscar', [
+router.post('/buscar/', [
     validarJWT
 ], buscarBitacoras);
 
