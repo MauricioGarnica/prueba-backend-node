@@ -50,23 +50,25 @@ const getCliente = (req, res) => {
         /* Desestructuro la respuesta para hacerlo un arreglo de objetos */
         const cliente = Object.values(JSON.parse(JSON.stringify(rows)));
         const client = cliente[0];
+        console.log(client);
         /* Mandamos el resultado */
         res.json({
-            cliente_id: client.cliente_id,
-            razon_social: client.razon_social,
-            telefono: client.telefono,
-            correo: client.correo,
-            fecha_creacion: client.fecha_creacion,
-            referencia: client.referencia,
-            estado_id: client.estado_id,
-            estado: client.estado,
-            ciudad_id: client.ciudad_id,
-            ciudad: client.ciudad,
-            colonia: client.colonia,
-            calle: client.calle,
-            cp: client.cp,
-            latitud: client.latitud,
-            longitud: client.longitud
+            msg: 'Hola',
+            cliente_id: client[0].cliente_id,
+            razon_social: client[0].razon_social,
+            telefono: client[0].telefono,
+            correo: client[0].correo,
+            fecha_creacion: client[0].fecha_creacion,
+            referencia: client[0].referencia,
+            estado_id: client[0].estado_id,
+            estado: client[0].estado,
+            ciudad_id: client[0].ciudad_id,
+            ciudad: client[0].ciudad,
+            colonia: client[0].colonia,
+            calle: client[0].calle,
+            cp: client[0].cp,
+            latitud: client[0].latitud,
+            longitud: client[0].longitud
         });
     });
 };
