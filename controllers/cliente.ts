@@ -46,7 +46,6 @@ export const getCliente = (req: Request, res: Response) => {
 
         /* Mandamos el resultado */
         res.json({
-            msg: 'Hola',
             cliente_id: client[0].cliente_id,
             razon_social: client[0].razon_social,
             telefono: client[0].telefono,
